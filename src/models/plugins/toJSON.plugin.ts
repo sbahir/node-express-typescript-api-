@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import { Schema } from "mongoose";
+// import { Schema } from 'mongoose';
 
 /**
  * A mongoose schema plugin which applies the following in the toJSON transform call:
@@ -8,7 +8,7 @@ import { Schema } from "mongoose";
  *  - replaces _id with id
  */
 
-const deleteAtPath = (obj, path, index) => {
+const deleteAtPath = (obj: { [x: string]: any }, path: string | any[], index: number) => {
   if (index === path.length - 1) {
     delete obj[path[index]];
     return;
@@ -16,14 +16,14 @@ const deleteAtPath = (obj, path, index) => {
   deleteAtPath(obj[path[index]], path, index + 1);
 };
 
-export const toJSON = (schema: any) => {
-  let transform;
+const toJSON = (schema: any) => {
+  let transform: any;
   if (schema.options.toJSON && schema.options.toJSON.transform) {
     transform = schema.options.toJSON.transform;
   }
 
   schema.options.toJSON = Object.assign(schema.options.toJSON || {}, {
-    transform(doc, ret, options) {
+    transform(doc: any, ret: { [x: string]: any; id?: any; _id?: any; createdAt?: any; updatedAt?: any }, options: any) {
       Object.keys(schema.paths).forEach((path) => {
         if (schema.paths[path].options && schema.paths[path].options.private) {
           deleteAtPath(ret, path.split('.'), 0);
@@ -41,3 +41,5 @@ export const toJSON = (schema: any) => {
     },
   });
 };
+
+export default toJSON;

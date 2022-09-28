@@ -1,5 +1,5 @@
 import winston from 'winston';
-import { config } from './config';
+import config from './config';
 
 const enumerateErrorFormat = winston.format((info) => {
   if (info instanceof Error) {
@@ -8,7 +8,7 @@ const enumerateErrorFormat = winston.format((info) => {
   return info;
 });
 
-export const logger = winston.createLogger({
+const logger = winston.createLogger({
   level: config.env === 'development' ? 'debug' : 'info',
   format: winston.format.combine(
     enumerateErrorFormat(),
@@ -22,3 +22,5 @@ export const logger = winston.createLogger({
     }),
   ],
 });
+
+export default logger;

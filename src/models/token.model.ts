@@ -1,7 +1,8 @@
-import mongoose, { ObjectId } from 'mongoose';
-import { toJSON } from './plugins/toJSON.plugin';
-import { TokenType, tokenTypes } from '../config/tokens';
+import mongoose from 'mongoose';
 import { getModelForClass, prop, plugin, DocumentType } from '@typegoose/typegoose';
+
+import toJSON from './plugins/toJSON.plugin';
+import { TokenType, tokenTypes } from '../config/tokens';
 
 // add plugin that converts mongoose to json
 @plugin(toJSON)

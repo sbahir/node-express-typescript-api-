@@ -1,7 +1,7 @@
 import pkg from '../../package.json';
-import { config } from '../config/config';
+import config from '../config/config';
 
-export const swaggerDefinition = {
+const swaggerDefinition = {
   openapi: '3.0.0',
   info: {
     title: 'node-express-boilerplate API documentation',
@@ -17,3 +17,5 @@ export const swaggerDefinition = {
     },
   ],
 };
+
+export default swaggerDefinition;

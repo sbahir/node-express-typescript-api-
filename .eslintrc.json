@@ -3,19 +3,26 @@
         "node": true,
         "jest": true
     },
+    "parser": "@typescript-eslint/parser",
     "extends": [
-        "airbnb-base",
+        "airbnb-typescript/base",
         "plugin:jest/recommended",
         "plugin:security/recommended",
         "plugin:prettier/recommended"
     ],
+    "globals": {
+        "NodeJS": true
+    },
     "plugins": [
         "jest",
         "security",
-        "prettier"
+        "prettier",
+        "@typescript-eslint"
     ],
     "parserOptions": {
-        "ecmaVersion": 2018
+        "ecmaVersion": 12,
+        "sourceType": "module",
+        "parser": "@typescript-eslint/parser"
     },
     "rules": {
         "no-console": "error",
@@ -27,6 +34,14 @@
         "indent": [
             "error",
             2
-        ]
+        ],
+        "import/extensions": 0
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            }
+        }
     }
 }

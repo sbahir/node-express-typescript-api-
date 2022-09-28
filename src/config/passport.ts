@@ -1,8 +1,9 @@
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import { config } from './config';
+import { JwtPayload } from 'jsonwebtoken';
+import config from './config';
 import { tokenTypes } from './tokens';
 import { User } from '../models/user.model';
-import { JwtPayload } from 'jsonwebtoken';
+
 export const jwtStrategy = new JwtStrategy(
   {
     secretOrKey: config.jwt.secret,
@@ -23,3 +24,5 @@ export const jwtStrategy = new JwtStrategy(
     }
   }
 );
+
+export default jwtStrategy;

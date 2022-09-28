@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import { config } from '../../src/config/config';
+import config from '../../src/config/config';
 
-export const setupTestDB = () => {
+const setupTestDB = () => {
   beforeAll(async () => {
     await mongoose.connect(config.mongoose.url, config.mongoose.options);
   });
@@ -14,3 +14,5 @@ export const setupTestDB = () => {
     await mongoose.disconnect();
   });
 };
+
+export default setupTestDB;

@@ -3,10 +3,10 @@ import httpStatus from 'http-status';
 import passport from 'passport';
 import { Permission, roleRights } from '../config/roles';
 import { UserModel } from '../models/user.model';
-import { ApiError } from '../utils/ApiError';
+import ApiError from '../utils/ApiError';
 
 const passportAuthenticate = async (req: Request): Promise<UserModel> => {
-  return await new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     passport.authenticate('jwt', { session: false }, (err, user: UserModel | undefined, info: unknown) => {
       if (err || info || !user) {
         return reject(new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate'));
@@ -16,7 +16,7 @@ const passportAuthenticate = async (req: Request): Promise<UserModel> => {
   });
 };
 
-export const auth = async (req: Request, ...requiredRights: Permission[]) => {
+const auth = async (req: Request, ...requiredRights: Permission[]) => {
   const user = await passportAuthenticate(req);
 
   if (requiredRights.length) {
@@ -31,3 +31,5 @@ export const auth = async (req: Request, ...requiredRights: Permission[]) => {
 
   return user;
 };
+
+export default auth;

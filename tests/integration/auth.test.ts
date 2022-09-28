@@ -4,12 +4,14 @@ import httpStatus from 'http-status';
 import httpMocks from 'node-mocks-http';
 import moment from 'moment';
 import bcrypt from 'bcryptjs';
-import { app } from '../../src/app';
-import { config } from '../../src/config/config';
-import { auth } from '../../src/middlewares/auth';
+import { jest } from '@jest/globals';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
+import app from '../../src/app';
+import config from '../../src/config/config';
+import auth from '../../src/middlewares/auth';
 import * as emailService from '../../src/services/email.service';
 import * as tokenService from '../../src/services/token.service';
-import { ApiError } from '../../src/utils/ApiError';
+import ApiError from '../../src/utils/ApiError';
 import { setupTestDB } from '../utils/setupTestDB';
 import { User } from '../../src/models/user.model';
 import { Token } from '../../src/models/token.model';
@@ -17,8 +19,6 @@ import { roleRights } from '../../src/config/roles';
 import { tokenTypes } from '../../src/config/tokens';
 import { userOne, admin, insertUsers, MockUser } from '../fixtures/user.fixture';
 import { userOneAccessToken, adminAccessToken } from '../fixtures/token.fixture';
-import { jest } from '@jest/globals';
-import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 setupTestDB();
 

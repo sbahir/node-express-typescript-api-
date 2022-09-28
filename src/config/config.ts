@@ -49,7 +49,7 @@ const envVarsSchema = z.object({
 
 const envVars = envVarsSchema.parse(process.env);
 
-export const config = {
+const config = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
   mongoose: {
@@ -78,3 +78,5 @@ export const config = {
     from: envVars.EMAIL_FROM,
   },
 };
+
+export default config;

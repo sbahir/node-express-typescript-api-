@@ -1,12 +1,14 @@
 import jwt from 'jsonwebtoken';
 import moment, { Moment } from 'moment';
 import httpStatus from 'http-status';
-import { config } from '../config/config';
+import { TokenTypes } from '@prisma/client';
+import config from '../config/config';
 import * as userService from './user.service';
 import { Token } from '../models/token.model';
-import { ApiError } from '../utils/ApiError';
+import ApiError from '../utils/ApiError';
 import { TokenType, tokenTypes } from '../config/tokens';
 import { UserModel } from '../models/user.model';
+import prisma from '../../prisma/prisma-client';
 
 /**
  * Generate token
@@ -16,7 +18,7 @@ import { UserModel } from '../models/user.model';
  * @param {string} [secret]
  * @returns {string}
  */
-export const generateToken = (userId: string, expires: Moment, type?: string, secret = config.jwt.secret) => {
+export const generateToken = (userId: number, expires: Moment, type?: string, secret = config.jwt.secret) => {
   const payload = {
     sub: userId,
     iat: moment().unix(),
@@ -35,13 +37,15 @@ export const generateToken = (userId: string, expires: Moment, type?: string, se
  * @param {boolean} [blacklisted]
  * @returns {Promise<Token>}
  */
-export const saveToken = async (token: string, userId: string, expires: Moment, type?: string, blacklisted = false) => {
+export const saveToken = async (token: string, id: number, expires: Moment, type: TokenTypes, blacklisted = false) => {
   const tokenDoc = await Token.create({
-    token,
-    user: userId,
-    expires: expires.toDate(),
-    type,
-    blacklisted,
+    data: {
+      token,
+      userId: id,
+      expires: expires.toDate(),
+      type,
+      blacklisted,
+    },
   });
   return tokenDoc;
 };

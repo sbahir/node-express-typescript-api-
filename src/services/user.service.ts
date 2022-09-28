@@ -1,8 +1,10 @@
 import httpStatus from 'http-status';
+import { user as UserModel } from '@prisma/client';
 import { PaginateFilter, PaginateOptions } from '../models/plugins/paginate.plugin';
-import { User, UserModel } from '../models/user.model';
-import { ApiError } from '../utils/ApiError';
+import { User } from '../models/user.model';
+import ApiError from '../utils/ApiError';
 import { CreateUser } from '../validations/user.validation';
+import prisma from '../../prisma/prisma-client';
 
 /**
  * Create a user
@@ -10,10 +12,13 @@ import { CreateUser } from '../validations/user.validation';
  * @returns {Promise<User>}
  */
 export const createUser = async (userBody: CreateUser) => {
-  if (await User.isEmailTaken(userBody.email)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
-  }
-  return User.create(userBody);
+  const result = await prisma.user.create({
+    data: {
+      ...userBody,
+    },
+  });
+
+  return result;
 };
 
 /**
@@ -42,10 +47,12 @@ export const getUserById = async (id: string) => {
 /**
  * Get user by email
  * @param {string} email
- * @returns {Promise<User>}
+ * @returns {Promise<UserModel>}
  */
 export const getUserByEmail = async (email: string) => {
-  return User.findOne({ email });
+  return User.findUnique({
+    where: { email },
+  });
 };
 
 /**

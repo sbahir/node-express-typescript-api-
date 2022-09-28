@@ -1,8 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { ZodError } from 'zod';
-import { ApiError } from './ApiError';
-export function catchAsync<T extends Request>(fn: (req: T, res: Response, next: NextFunction) => void) {
+import ApiError from './ApiError';
+
+// eslint-disable-next-line no-unused-vars
+function catchAsync<T extends Request>(fn: (req: T, res: Response, next: NextFunction) => void) {
   return (req: Parameters<typeof fn>[0], res: Parameters<typeof fn>[1], next: Parameters<typeof fn>[2]) => {
     Promise.resolve(fn(req, res, next)).catch((err) => {
       if (err instanceof ZodError) {
@@ -14,3 +16,5 @@ export function catchAsync<T extends Request>(fn: (req: T, res: Response, next: 
     });
   };
 }
+
+export default catchAsync;

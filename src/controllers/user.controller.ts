@@ -1,9 +1,9 @@
 import httpStatus from 'http-status';
-import { ApiError } from '../utils/ApiError';
-import { catchAsync } from '../utils/catchAsync';
+import ApiError from '../utils/ApiError';
+import catchAsync from '../utils/catchAsync';
 import * as userService from '../services/user.service';
 import * as userValidation from '../validations/user.validation';
-import { auth } from '../middlewares/auth';
+import auth from '../middlewares/auth';
 
 export const createUser = catchAsync(async (req, res) => {
   await auth(req, 'manageUsers');

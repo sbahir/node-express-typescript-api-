@@ -1,10 +1,11 @@
-import mongoose, { Document, Model } from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
-import { toJSON } from './plugins/toJSON.plugin';
+import { prop, getModelForClass, pre, plugin, DocumentType } from '@typegoose/typegoose';
+import { PrismaClient } from '@prisma/client';
+import toJSON from './plugins/toJSON.plugin';
 import { paginate } from './plugins/paginate.plugin';
 import { Role, roles } from '../config/roles';
-import { prop, getModelForClass, pre, plugin, DocumentType } from '@typegoose/typegoose';
+
 @pre<UserClass>('save', async function (next) {
   const user = this;
   if (user.isModified('password')) {
@@ -15,7 +16,10 @@ import { prop, getModelForClass, pre, plugin, DocumentType } from '@typegoose/ty
 @plugin(toJSON)
 @plugin(paginate)
 class UserClass {
+  constructor(private readonly prismaUser: PrismaClient['user']) {}
+
   public static paginate: ReturnType<typeof paginate>;
+
   public static toJSON: () => any;
 
   @prop({ trim: true })

@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { faker } from '@faker-js/faker';
 import httpStatus from 'http-status';
-import { app } from '../../src/app';
+import app from '../../src/app';
 import { setupTestDB } from '../utils/setupTestDB';
 import { User } from '../../src/models/user.model';
 import { userOne, userTwo, admin, insertUsers, MockUser } from '../fixtures/user.fixture';

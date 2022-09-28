@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 import httpStatus from 'http-status';
 import httpMocks from 'node-mocks-http';
+import jest from '@jest/globals';
 import { errorConverter, errorHandler } from '../../../src/middlewares/error';
-import { ApiError } from '../../../src/utils/ApiError';
-import { config } from '../../../src/config/config';
-import { logger } from '../../../src/config/logger';
-import { jest } from '@jest/globals';
+import ApiError from '../../../src/utils/ApiError';
+import config from '../../../src/config/config';
+import logger from '../../../src/config/logger';
 
 describe('Error middlewares', () => {
   describe('Error converter', () => {
